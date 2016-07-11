@@ -1,6 +1,15 @@
 \chapter{制作PBR纹理的实用指南}
 
-基于物理的渲染(Physically Based Rendering, PBR)与其被看做一个硬性标准，还不如说是一个方法论。它有具体的原则和参考，但是并不是一个真正的标准规范，而且会有不同的实现方式。这些区别通常出现在使用了不同
+基于物理的渲染(Physically Based Rendering, PBR)与其被看做一个硬性标准，还不如说是一个方法论。它有具体的原则和参考，但是并不是一个真正的标准规范，而且会有不同的实现方式。这些区别通常体现在使用了不同的贴图类型(即所谓的工作流)、BRDF函数和粗糙度/光泽度的数据表达方式等。甚至有些实现会使用不同的映射名字，但用起来还是一样的。
+
+在本文，我们将讨论两种最常见的工作流，即图\figure{fig:chap2_1}中的金属度/粗糙度工作流和高光/光泽度工作流。Substance工具套装中可用来处理PBR贴图的Sbustance Designer，Substance Painter和Bitmap2Material 3都支持这两种。针对这两种工作流的Substance PBR shaders使用了GGX BRDF，而且没有对输入的参数进一步处理或变换。但是如果需要自定义参数的话，利用Substance材质可以很方便的实现。更进一步来说，Substance工具套装中支持自定义shader，意味着你能将其修改至适应任意管线。
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_1.png}
+	\caption{金属度/粗糙度工作流和高光/光泽度工作流}
+    \label{fig:chap2_1}
+\end{figure}
 
 \section{什么是PBR?}
 
