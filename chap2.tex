@@ -33,14 +33,24 @@
 
 在PBR中，shader能够通过能量手和和BRDF函数模拟更加复杂的物理性质，因此艺术家需要根据物理性质来绘制贴图。这样我们就能够节约猜测材质属性的时间，将精力投入到艺术创作方面。虽然参考规则来正确绘制贴图非常重要，这并不意味着我们需要抛弃艺术创作部分。事实上从一个艺术家的角度，制作材质的时候更要考虑其背后的故事，并通过细节来表现出来。不要被物理限制住手脚是非常重要的。正是因为我们在一个更加物理正确的环境下工作，这并不是说不能使用个性化的艺术手法。例如迪斯尼的基于物理的反射模型是被设计成『principled』模型，这意味着它更加贴近于艺术家的角度而不是严格物理模型。所以说我们应该掌握主要原则和知道，但不是成为其奴隶。
 
-
 \section{金属度/粗糙度工作流}
+
+金属度/粗糙度工作流是通过一些通道的集合来定义的，这些通道作为PBR Shader里的纹理传入。具体来说有固有色、金属度和粗糙度三张，如图\ref{fig:chap2_2}所示，具体每张贴图会在后面的章节里详细讨论。PBR Shader也能够支持环境遮挡、法线贴图和视差贴图等，如图\ref{fig:chap2_3}所示。这些贴图在不同的工作流中都会共用，将在\ref{sec:common_maps}节讨论。
+
+在金属度/粗糙度工作流工作流中，
 
 \begin{figure}[ht]
     \centering
 	\includegraphics[width=\textwidth]{images/chap2_2.png}
 	\caption{金属度/粗糙度工作流}
     \label{fig:chap2_2}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_3.png}
+	\caption{金属度/粗糙度工作流}
+    \label{fig:chap2_3}
 \end{figure}
 
 \subsection{电介质F0}
@@ -155,3 +165,8 @@ F0需要基于真实世界的数据。就像我们在金属度贴图中提到的
 \item 会额外多使用一个RGB通道的贴图。\footnote{译者注：高光贴图，金属度/粗糙度工作流中金属度只要单通道就可以表示}
 \item 使用的名词与传统流程中的流程名词相似，但是所指的东西完全不是一回事儿。同时需要扎实的基于物理光照的知识和概念才能将贴图画对。例如：F0不能瞎填要基于真实数据，纯金属的漫反射要是黑的。
 \end{enumerate}
+
+\section{不同工作流共用贴图}
+\label{sec:common_maps}
+
+\section{Substance PBR功能}
