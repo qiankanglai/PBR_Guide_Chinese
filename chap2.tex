@@ -97,6 +97,29 @@
 
 \subsubsection{制作指导}
 
+固有色贴图从色调上看应该是比较“平”的，譬如说和传统漫反射贴图相比对比度更低：里面的值不应该过大或过小。物体实际上会比我们觉得的颜色更亮一些。具体来说，我们想象一个最暗的东西——煤和最亮的东西——干净的雪。实际上煤并不是值为0的黑。我们需要使用范围内的颜色，实际上这里指的就是绝缘体的反射颜色。在图\ref{fig:chap2_8}里，你可以看到脏的部分比正确范围还要小的错误例子。就算是暗的地方也不应该低于sRGB下30-50。暗部在宽松限制下不应该低于sRGB 30，严格来说不能低于sRGB 50。对于亮的地方，sRGB不应该超过240。
+
+我们前面已经提到固有色包含了根据绝缘体材质得到反射光，因此这里面应当去掉注入AO等光源信息。当然也有例外：当shader只用AO无法表达足够多细节时，可以加一些小的遮挡来提神效果。固有色中对应金属反射率的值应当从现实测量数据中得到。这些值一般在specular的70-100\%，对应sRGB范围是180-255。在后面的PBR Utilities一节中，我们会讨论提供了常见材质预制F0的工具。另外Sébastien Lagarde提供的金属度/粗糙度表格也是一个非常棒的参考资源。
+
+https://seblagarde.wordpress.com/2014/04/14/dontnodphysically-based-rendering-chart-for-unreal-engine-4/
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_8.png}
+	\caption{绝缘体的固有色范围}
+    \label{fig:chap2_8}
+\end{figure}
+
+\textbf{金属反射率的值应当从现实测量数据中得到。}
+
+\begin{enumerate}
+\item 贴图颜色表示非金属的固有色和金属的反射率
+\item 固有色应当避免颜色信息，但是可以有一些小AO
+\item 暗部不应该低于sRGB 30(宽松限制)-sRGB 50(严格限制)
+\item 亮部不应该超过sRGB 240
+\item 金属反射率一般在specular的70-100\%，对应sRGB范围是180-255
+\end{enumerate}
+
 \subsection{金属度 (灰度-线性)}
 
 \subsubsection{制作指导}
