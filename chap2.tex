@@ -120,9 +120,31 @@ https://seblagarde.wordpress.com/2014/04/14/dontnodphysically-based-rendering-ch
 \item 金属反射率一般在specular的70-100\%，对应sRGB范围是180-255
 \end{enumerate}
 
+我们将在下面的金属度章节讨论到固有色也包含了金属反射值。如果在固有色里加上了尘土或氧化效果，就会导致金属反射值低于原始金属的对应范围。另外在金属度贴图上也需要进行修改：对应的值也需要低于原始值。例如图\ref{fig:chap2_10}中沾染了尘土的金属被当作绝缘体处理，因此金属度贴图中使用了黑色。
+
+\textbf{金属度贴图用起来像一个遮罩层，告诉shader贴图的值对应金属反射值还是非金属固有色}
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_10.png}
+	\caption{氧化效果和尘土需要在金属度贴图上也进行修改}
+    \label{fig:chap2_10}
+\end{figure}
+
 \subsection{金属度 (灰度-线性)}
 
+金属度贴图用来定义材质的哪些部分是金属。它是一张灰度图。金属度贴图用起来像一个遮罩层，告诉shader贴图的值对应金属反射值还是非金属固有色。它里面的数据并不包含真实世界数据，只是用来告诉shader固有色贴图应当被当作反射颜色(绝缘体)还是金属反射值使用。在贴图里，0.0(黑色-0 sRGB)表示非金属，1.0(白色-255 sRGB)表示金属。从区分金属和非金属的角度来说，金属度贴图一般是二元的，也就是说白色或黑色的。以图\ref{fig:chap2_11}为例，当shader发现金属度贴图是白色时，它会获取对应固有色贴图并将其作为金属反射率使用。
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_11.png}
+	\caption{金属度贴图指定固有色贴图中的反射率部分}
+    \label{fig:chap2_11}
+\end{figure}
+
 \subsubsection{制作指导}
+
+金属表面
 
 \subsection{粗糙度 (灰度-线性)}
 
