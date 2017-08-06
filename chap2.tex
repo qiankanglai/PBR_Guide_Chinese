@@ -165,14 +165,52 @@ https://seblagarde.wordpress.com/2014/04/14/dontnodphysically-based-rendering-ch
 
 \begin{figure}[ht]
     \centering
-	\includegraphics[width=\textwidth]{images/chap2_12.png}
-	\caption{金属度贴图上原始金属的sRGB应当大于235}
-    \label{fig:chap2_12}
+	\includegraphics[width=\textwidth]{images/chap2_13.png}
+	\caption{被颜料覆盖的金属被视为绝缘体}
+    \label{fig:chap2_13}
 \end{figure}
 
-p10 第二段继续
+金属度贴图能通过灰度渐变表达金属和非金属间的混合状态。关键点在于如果金属度贴图的灰度值低于sRGB 235，那么对应固有色贴图中的『原始』金属反射值需要降低。举个例子，图\ref{fig:chap2_14}中有一层尘土部分遮挡了金属。这层尘土是绝缘的，如果你在金属度贴图中没有单独处理的话，那么尘土对应的固有色贴图就会被当成金属反射率使用。同时尘土的颜色会比光滑金属对应的70-100\%反射率低很多。正确的做法是降低金属度贴图中尘土对应的部分，这样就能得到一个正确的绝缘部分和金属反射率之间的混合效果。
+
+尘土层的透明度能够用来表明固有色中的反射率应该降低多少。这里没有什么明确无误的规则。你要做的是从一个高反射率(金属)过渡到低反射率(绝缘体)。具体下降多少要根据使用场景而定。
+
+Substance工具能帮助你更轻松的实现这些效果，并通过多个通道来控制这些效果的度。Substance Designer和Substance Painter能使你调整Substance效果的参数，这将自动调整对应的通道。例如在Substance Designer里，你可以使用一个颜色混合节点来实现多个通道的尘土效果。如图\ref{fig:chap2_15}所示，你可以通过金属度滑杆来调整金属上覆盖的尘土层效果。
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_14.png}
+	\caption{金属度贴图中金属部分对应值应当不小于sRGB 235}
+    \label{fig:chap2_14}
+\end{figure}
+
+\textbf{被氧化的金属应该被当做绝缘体，如生锈部分。被油漆覆盖的同理。}
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_15.png}
+	\caption{材质颜色混合-更低的金属度意味着薄尘土层(金属和尘土之间的状态)}
+    \label{fig:chap2_15}
+\end{figure}
+
+\begin{enumerate}
+\item 黑色(0.0)表示非金属，白色(1.0)表示金属。中间的过渡值能用来表示氧化或者尘土。
+\item 如果金属度对应值小于235 sRGB，那么固有色贴图中的反射率需要降低。
+\end{enumerate}
 
 \subsection{粗糙度 (灰度-线性)}
+
+粗糙度贴图描述平面的不规则程度，这个导致了图\ref{fig:chap2_16}中的光扩散的效果。正如券一所讨论，平面粗糙能导致光随机反射。这个导致光的方向发生变化，但是光的强度保持不变。粗糙的平面对应的是更大且更暗的高光；光滑的平面将保持高光反射狙击，这意味着看起来更亮(虽然反射的光总量是相同的)。
+
+在粗糙度贴图中，黑色(0.0)表示光滑的平面，白色(1.0)表示粗糙的平面。
+
+p.11
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=\textwidth]{images/chap2_16.png}
+	\caption{粗糙度贴图描述平面的不规则程度，这导致了光的扩散}
+    \label{fig:chap2_16}
+\end{figure}
 
 \subsubsection{制作指导}
 
